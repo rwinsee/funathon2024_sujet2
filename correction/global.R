@@ -10,8 +10,10 @@ library(plotly)
 library(gt)
 library(leaflet)
 library(bslib)
+library(shinydashboard)
+library(DT)
 
-setwd("correction/")#indicates the right WD, otherwise it doesn't run correctly
+# setwd("correction/")#indicates the right WD, otherwise it doesn't run correctly
 source("R/import_data.R")
 source("R/create_data_list.R")
 source("R/clean_dataframe.R")
@@ -34,8 +36,14 @@ pax_lsn_all <- import_liaisons_data(unlist(urls$liaisons))
 
 airports_location <- st_read(urls$geojson$airport)
 
-liste_aeroports <- unique(pax_apt_all$apt)
-default_airport <- liste_aeroports[1]
+# liste_aeroports <- unique(pax_apt_all$apt)
+liste_aeroports <- pax_apt_all %>%
+  select(apt, apt_nom) %>%
+  distinct() %>%
+  arrange(apt_nom)
+
+# default_airport <- liste_aeroports[1]
+default_airport <- liste_aeroports$apt[1]
 
 
 # OBJETS NECESSAIRES A L'APPLICATION ------------------------
@@ -46,3 +54,7 @@ trafic_aeroports <- pax_apt_all %>%
   mutate(
     date = as.Date(paste(anmois, "01", sep=""), format = "%Y%m%d")
   )
+
+# Définir les dates de la période COVID ----------------------
+covid_start <- as.Date("2020-02-17")
+covid_end <- as.Date("2022-01-01")

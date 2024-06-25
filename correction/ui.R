@@ -12,10 +12,23 @@ input_date <- shinyWidgets::airDatepickerInput(
   language = "fr"
 )
 
+# input_airport <- selectInput(
+#   "select",
+#   "Aéroport choisi",
+#   choices = liste_aeroports,
+#   selected = default_airport
+# )
+
+# Créer les choix pour le selectInput
+choices_airports <- setNames(
+  liste_aeroports$apt,
+  paste(liste_aeroports$apt_nom, " (", liste_aeroports$apt, ")", sep = "")
+)
+
 input_airport <- selectInput(
   "select",
   "Aéroport choisi",
-  choices = liste_aeroports,
+  choices = choices_airports,
   selected = default_airport
 )
 
@@ -26,9 +39,9 @@ ui <- page_navbar(
   header = em("Projet issu du funathon 2024, organisé par l'Insee et la DGAC"),
   layout_columns(
     card(
-      HTML(
-        '<a href="https://inseefrlab.github.io/funathon2024_sujet2/">👉️ Retourner au tutoriel pour construire cette application</a>'
-      ),
+      # HTML(
+      #   '<a href="https://inseefrlab.github.io/funathon2024_sujet2/">👉️ Retourner au tutoriel pour construire cette application</a>'
+      # ),
       input_date,
       gt_output(outputId = "table")
     ),
@@ -37,7 +50,7 @@ ui <- page_navbar(
       card(card_header("Fréquentation d'un aéroport", class = "bg-dark"),
            input_airport,
            plotlyOutput("lineplot")
-          ),
+      ),
       col_widths = c(12,12)
     ),
     cols_widths = c(12,12,12)
