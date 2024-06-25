@@ -159,3 +159,55 @@ map_leaflet_airport <- function(df, airports_location, month, year) {
   return(carte_interactive)
 }
 
+# Fonction pour ajouter les annotations COVID
+add_covid_annotations <- function(plot) {
+  plot %>%
+    layout(
+      shapes = list(
+        list(
+          type = "line",
+          x0 = covid_start,
+          x1 = covid_start,
+          y0 = 0,
+          y1 = 1,
+          xref = "x",
+          yref = "paper",
+          line = list(color = "red", dash = "dot", width = 1)
+        ),
+        list(
+          type = "line",
+          x0 = covid_end,
+          x1 = covid_end,
+          y0 = 0,
+          y1 = 1,
+          xref = "x",
+          yref = "paper",
+          line = list(color = "red", dash = "dot", width = 1)
+        )
+      ),
+      annotations = list(
+        list(
+          x = covid_start,
+          y = max(data$index_base_100, na.rm = TRUE),
+          xref = "x",
+          yref = "y",
+          text = "Début COVID FR",
+          showarrow = TRUE,
+          arrowhead = 2,
+          ax = -50,
+          ay = -40
+        ),
+        list(
+          x = covid_end,
+          y = max(data$index_base_100, na.rm = TRUE),
+          xref = "x",
+          yref = "y",
+          text = "Fin COVID FR",
+          showarrow = TRUE,
+          arrowhead = 2,
+          ax = 40,
+          ay = -40
+        )
+      )
+    )
+}

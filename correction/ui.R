@@ -36,7 +36,7 @@ input_airport <- selectInput(
   "select",
   "Aéroport choisi",
   choices = choices_airports,
-  selected = default_airport
+  selected = "PARIS-CHARLES DE GAULLE"#default_airport
 )
 
 
@@ -226,14 +226,11 @@ ui <- dashboardPage(
                   DTOutput("table_fret_detail")
                 )
               )
-      )
-      
-      
-      ,
+      ),
       tabItem(tabName = "comparaison",
               fluidRow(
                 box(
-                  title = "Comparaison Annuelle",
+                  title = "Comparaison Annuelle (Base 100 en 2018)",
                   status = "primary",
                   solidHeader = TRUE,
                   collapsible = TRUE,
@@ -241,6 +238,9 @@ ui <- dashboardPage(
                 )
               )
       )
+      
+      
+      
     )
   )
 )
