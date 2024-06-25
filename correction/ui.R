@@ -66,7 +66,7 @@ ui <- dashboardPage(
               fluidRow(
                 box(
                   title = "Fréquentation d'un aéroport",
-                  status = "primary",
+                  status = "success",
                   solidHeader = TRUE,
                   collapsible = TRUE,
                   input_airport,
@@ -74,7 +74,7 @@ ui <- dashboardPage(
                 ),
                 box(
                   title = "Carte des aéroports",
-                  status = "primary",
+                  status = "success",
                   solidHeader = TRUE,
                   collapsible = TRUE,
                   leafletOutput("carte")
@@ -83,7 +83,7 @@ ui <- dashboardPage(
               fluidRow(
                 box(
                   title = "Données détaillées mensuelles",
-                  status = "primary",
+                  status = "success",
                   solidHeader = TRUE,
                   collapsible = TRUE,
                   input_date,
@@ -91,7 +91,7 @@ ui <- dashboardPage(
                 ),
                 box(
                   title = "Données détaillées annuelles",
-                  status = "primary",
+                  status = "success",
                   solidHeader = TRUE,
                   collapsible = TRUE,
                   input_annee,
@@ -108,14 +108,14 @@ ui <- dashboardPage(
               fluidRow(
                 box(
                   title = "Nombre de Passagers par Compagnie",
-                  status = "primary",
+                  status = "success",
                   solidHeader = TRUE,
                   collapsible = TRUE,
                   plotlyOutput("bar_compagnies_vols")
                 ),
                 box(
                   title = "Évolution Mensuelle du Nombre de Passagers",
-                  status = "primary",
+                  status = "success",
                   solidHeader = TRUE,
                   collapsible = TRUE,
                   plotlyOutput("line_evolution_passagers")
@@ -123,14 +123,14 @@ ui <- dashboardPage(
                 fluidRow(
                 box(
                   title = "Répartition des Passagers par Nationalité",
-                  status = "primary",
+                  status = "success",
                   solidHeader = TRUE,
                   collapsible = TRUE,
                   plotlyOutput("pie_nationalite_compagnies")
                 ),
                 box(
                   title = "Détail des Passagers par Compagnie",
-                  status = "primary",
+                  status = "success",
                   solidHeader = TRUE,
                   collapsible = TRUE,
                   DTOutput("table_detail_compagnies")
@@ -141,7 +141,7 @@ ui <- dashboardPage(
               fluidRow(
                 box(
                   title = "Sélectionner une date",
-                  status = "primary",
+                  status = "success",
                   solidHeader = TRUE,
                   collapsible = TRUE,
                   shinyWidgets::airDatepickerInput(
@@ -160,14 +160,14 @@ ui <- dashboardPage(
                 fluidRow(
                   box(
                   title = "Nombre de Passagers par Liaison (hors AUTRES)",
-                  status = "primary",
+                  status = "success",
                   solidHeader = TRUE,
                   collapsible = TRUE,
                   plotlyOutput("bar_liaisons")
                 ),
                   box(
                   title = "Détail des Passagers par Liaison (hors AUTRES)",
-                  status = "primary",
+                  status = "success",
                   solidHeader = TRUE,
                   collapsible = TRUE,
                   DTOutput("table_liaisons_detail")
@@ -179,14 +179,14 @@ ui <- dashboardPage(
                 # valueBoxOutput("zone_most_passengers"),
                 box(
                   title = "Vols par Zone",
-                  status = "primary",
+                  status = "success",
                   solidHeader = TRUE,
                   collapsible = TRUE,
                   plotlyOutput("bar_vols_zones")
                 ),
                 box(
                   title = "Nombre de Passagers par Zone",
-                  status = "primary",
+                  status = "success",
                   solidHeader = TRUE,
                   collapsible = TRUE,
                   plotlyOutput("bar_passengers_zones")
@@ -195,7 +195,7 @@ ui <- dashboardPage(
               fluidRow(
                 box(
                   title = "Détails",
-                  status = "primary",
+                  status = "success",
                   solidHeader = TRUE,
                   collapsible = TRUE,
                   DTOutput("detail_passagers_zone")
@@ -213,14 +213,14 @@ ui <- dashboardPage(
               fluidRow(
                 box(
                   title = "Compagnies de Fret les Plus Actives",
-                  status = "primary",
+                  status = "success",
                   solidHeader = TRUE,
                   collapsible = TRUE,
                   plotlyOutput("bar_fret")
                 ),
                 box(
                   title = "Détail des Compagnies de Fret",
-                  status = "primary",
+                  status = "success",
                   solidHeader = TRUE,
                   collapsible = TRUE,
                   DTOutput("table_fret_detail")
@@ -231,7 +231,7 @@ ui <- dashboardPage(
               fluidRow(
                 box(
                   title = "Comparaison Annuelle (Base 100 en 2018)",
-                  status = "primary",
+                  status = "success",
                   solidHeader = TRUE,
                   collapsible = TRUE,
                   plotlyOutput("line_comparaison")
@@ -242,5 +242,6 @@ ui <- dashboardPage(
       
       
     )
-  )
+  ),
+  skin = "green" 
 )
