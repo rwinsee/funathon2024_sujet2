@@ -24,7 +24,6 @@ EXPOSE $SHINY_PORT
 RUN echo "local({options(shiny.port = ${SHINY_PORT}, shiny.host = '0.0.0.0')})" >> /usr/local/lib/R/etc/Rprofile.site
 
 RUN Rscript -e "renv::restore()"
-RUN Rscript -e 'install.packages(c("shinydashboard"), repos = "https://cran.r-project.org")'
 
 # Endpoint
 CMD ["Rscript", "-e", "shiny::runApp()"]
