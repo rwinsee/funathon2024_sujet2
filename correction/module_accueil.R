@@ -1,8 +1,8 @@
 # module_accueil.R
 
-output$source_code <- renderPrint({
-  cat("source_code.R")
-})
+# output$source_code <- renderPrint({
+#   cat("source_code.R")
+# })
 
 output$accueil_content <- renderUI({
   tagList(
@@ -31,7 +31,7 @@ output$accueil_content <- renderUI({
       ),
       br(),
       h5("Contact :"),
-      p("Ce projet étant développé dans le cadre du FUNATHON, aucune évolution ne sera déployée. Toutefois, vous pouvez nous contacter à l'adresse email suivante : ",
+      p("Ce projet étant développé dans le cadre du FUNATHON, aucune évolution ne sera déployée. Toutefois, il est possible de nous contacter à l'adresse email suivante : ",
         tags$a(href = "mailto:romuald.weidmann@insee.fr", "romuald.weidmann@insee.fr"))
     )
   )
