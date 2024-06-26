@@ -1,8 +1,3 @@
-# module_accueil.R
-
-# output$source_code <- renderPrint({
-#   cat("source_code.R")
-# })
 
 output$accueil_content <- renderUI({
   tagList(
