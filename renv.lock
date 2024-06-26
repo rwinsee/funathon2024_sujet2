@@ -1286,6 +1286,20 @@
       ],
       "Hash": "bc918b6911c4e928e24a9928295de834"
     },
+    "shinydashboard": {
+      "Package": "shinydashboard",
+      "Version": "0.7.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "htmltools",
+        "promises",
+        "shiny",
+        "utils"
+      ],
+      "Hash": "e418b532e9bb4eb22a714b9a9f1acee7"
+    },
     "sourcetools": {
       "Package": "sourcetools",
       "Version": "0.1.7-1",
