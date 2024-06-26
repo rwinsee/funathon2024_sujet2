@@ -21,6 +21,7 @@ source("R/divers_functions.R")
 source("R/tables.R")
 source("R/figures.R")
 
+
 # Global variables ---------------------------
 
 YEARS_LIST <- 2018:2022
