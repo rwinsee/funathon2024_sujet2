@@ -4,15 +4,15 @@ FROM inseefrlab/onyxia-rstudio:r4.3.2-2024.02.13
 ADD correction/global.R .
 ADD correction/ui.R .
 ADD correction/server.R .
-ADD correction/modules_server/module_cie_aeriennes.R modules_server/
-ADD correction/modules_server/module_freq_fr.R modules_server/
-ADD correction/modules_server/module_cie_aeriennes.R modules_server/
-ADD correction/modules_server/module_comparaison_annuelle.R modules_server/
-ADD correction/modules_server/module_fret.R modules_server/
-ADD correction/modules_server/module_liaisons.R modules_server/
-ADD correction/modules_server/module_zone.R modules_server/
+ADD correction/modules_server/module_cie_aeriennes.R .
+ADD correction/modules_server/module_freq_fr.R .
+ADD correction/modules_server/module_comparaison_annuelle.R .
+ADD correction/modules_server/module_fret.R .
+ADD correction/modules_server/module_liaisons.R .
+ADD correction/modules_server/module_zone.R .
 ADD correction/sources.yml .
 COPY correction/R R/
+COPY correction/modules_server modules_server/
 ADD renv.lock .
 ADD renv .
 
@@ -21,6 +21,8 @@ ADD renv .
 ARG SHINY_PORT=3838
 EXPOSE $SHINY_PORT
 RUN echo "local({options(shiny.port = ${SHINY_PORT}, shiny.host = '0.0.0.0')})" >> /usr/local/lib/R/etc/Rprofile.site
+# Diagnostic: Check for the presence of shinydashboard
+RUN Rscript -e "if (!require('shinydashboard')) stop('Package shinydashboard not installed')"
 
 RUN Rscript -e "renv::restore()"
 
