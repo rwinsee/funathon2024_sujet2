@@ -4,13 +4,13 @@ FROM inseefrlab/onyxia-rstudio:r4.3.2-2024.02.13
 ADD correction/global.R .
 ADD correction/ui.R .
 ADD correction/server.R .
+ADD correction/module_accueil.R .
 ADD correction/module_cie_aeriennes.R .
 ADD correction/module_freq_fr.R .
 ADD correction/module_comparaison_annuelle.R .
 ADD correction/module_fret.R .
 ADD correction/module_liaisons.R .
 ADD correction/module_zone.R .
-ADD correction/module_accueil.R .
 ADD correction/sources.yml .
 COPY correction/R R/
 COPY . .
