@@ -1,5 +1,7 @@
 FROM inseefrlab/onyxia-rstudio:r4.3.2-2024.02.13
 
+RUN Rscript -e 'install.packages("shinydashboard", repos = "https://cran.r-project.org")'
+
 # Add files necessary for the running app
 ADD correction/global.R .
 ADD correction/ui.R .
