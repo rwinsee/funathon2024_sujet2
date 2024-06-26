@@ -42,8 +42,8 @@ liste_aeroports <- pax_apt_all %>%
   distinct() %>%
   arrange(apt_nom)
 
-# default_airport <- liste_aeroports[1]
-default_airport <- liste_aeroports$apt[1]
+# default_airport <- liste_aeroports$apt[1]
+default_airport <- "PARIS-CHARLES DE GAULLE"
 
 
 # OBJETS NECESSAIRES A L'APPLICATION ------------------------

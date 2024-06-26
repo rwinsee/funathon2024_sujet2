@@ -12,13 +12,6 @@ input_date <- shinyWidgets::airDatepickerInput(
   language = "fr"
 )
 
-# input_airport <- selectInput(
-#   "select",
-#   "Aéroport choisi",
-#   choices = liste_aeroports,
-#   selected = default_airport
-# )
-
 # Créer les choix pour le selectInput
 choices_airports <- setNames(
   liste_aeroports$apt,
@@ -36,14 +29,19 @@ input_airport <- selectInput(
   "select",
   "Aéroport choisi",
   choices = choices_airports,
-  selected = "PARIS-CHARLES DE GAULLE"#default_airport
+  selected = "PARIS-CHARLES DE GAULLE" #default_airport
 )
 
 
 ui <- dashboardPage(
-  dashboardHeader(title = "DB aéroports FR"),
+  dashboardHeader(title = "DB aéroports FR",
+                  tags$li(class = "dropdown",
+                          tags$head(
+                            tags$link(rel = "shortcut icon", href = "www/favicon.ico")
+                          ))),
   dashboardSidebar(
     sidebarMenu(
+      menuItem("Accueil", tabName = "accueil", icon = icon("home")),
       menuItem("Fréquentation FR", tabName = "frequentation", icon = icon("dashboard")),
       menuItem("Compagnies Aériennes", tabName = "compagnies", icon = icon("plane")),
       menuItem("Liaisons Aériennes", tabName = "liaisons", icon = icon("exchange")),
@@ -54,6 +52,46 @@ ui <- dashboardPage(
   ),
   dashboardBody(
     tabItems(
+      tabItem(tabName = "accueil",
+              fluidRow(
+                box(
+                  title = "Bienvenue sur le tableau de bord du trafic aérien",
+                  status = "success",
+                  solidHeader = TRUE,
+                  collapsible = TRUE,
+                  width = 12,
+                  # img(src = "www/accueil_image.png", height = "300px"), # Ajoutez votre image ici
+                  div(
+                    style = "text-align: justify; padding: 10px; text-align: center;",
+                    br(),
+                    img(src = "https://github.com/rwinsee/funathon2024_sujet2/raw/main/img/cockpit.png", height = "300px"),
+                    br(),
+                    br(),
+                    br(),
+                    p("Bienvenue sur le tableau de bord interactif du trafic aérien. Ce tableau de bord vous permet de visualiser et d'analyser les données de fréquentation, de compagnies aériennes, de liaisons aériennes, de zones géographiques, de fret aérien."),
+                    p("Pour commencer votre navigation, sélectionnez l'onglet correspondant à la catégorie de données que vous souhaitez explorer. Chaque onglet contient des visualisations interactives et des tableaux détaillés."),
+                    p(HTML("<strong>Ce tableau de bord a été développé dans le cadre du FUNATHON 2024 organisé par les équipes innovation de l’Insee & DGAC sur la thématique des statistiques sur l’aviation civile.</strong>")),
+                    p("N'hésitez pas à explorer les différentes sections et à utiliser les filtres pour affiner votre analyse."),
+                    br(),
+                    h5("Liens utiles :"),
+                    tags$ul(
+                      tags$li(tags$a(href = "https://inseefrlab.github.io/funathon2024/about.html", "Qu'est-ce que le FUNATHON ?", target = "_blank")),
+                      tags$li(tags$a(href = "https://inseefrlab.github.io/funathon2024/", "Lien vers le site dédié au FUNATHON 2024", target = "_blank")),
+                      tags$li(tags$a(href = "https://inseefrlab.github.io/funathon2024_sujet2/", "Lien vers le sujet dédié du FUNATHON 2024", target = "_blank")),
+                      tags$li(tags$a(href = "https://github.com/rwinsee/funathon2024_sujet2", "Lien vers le dépôt de code source de l'application", target = "_blank")),
+                      tags$li(tags$a(href = "https://github.com/rwinsee/funathon2024_sujet2_cd", "Lien vers le dépôt de code source du déploiement de l'application", target = "_blank")),
+                      tags$li(tags$a(href = "https://github.com/InseeFrLab/funathon2024", "Lien vers la ressource de cet événement ", target = "_blank")),
+                      tags$li(tags$a(href = "https://droits-passagers-aeriens.aviation-civile.gouv.fr/", "Site officiel de la DGAC", target = "_blank")),
+                      tags$li(tags$a(href = "https://www.insee.fr", "Site officiel de l'Insee", target = "_blank"))
+                    ),
+                    br(),
+                    h5("Contact :"),
+                    p("Ce projet étant développé dans le cadre du FUNATHON, aucune évolution ne sera déployée. Toutefois, vous pouvez nous contacter à l'adresse email suivante : ",
+                      tags$a(href = "mailto:romuald.weidmann@insee.fr", "romuald.weidmann@insee.fr"))
+                  )
+                )
+              )
+      ),
       tabItem(tabName = "frequentation",
               fluidRow(
                 valueBoxOutput("total_passengers"),
@@ -65,7 +103,7 @@ ui <- dashboardPage(
               ),
               fluidRow(
                 box(
-                  title = "Fréquentation d'un aéroport",
+                  title = "Fréquentation par aéroport",
                   status = "success",
                   solidHeader = TRUE,
                   collapsible = TRUE,
@@ -107,29 +145,29 @@ ui <- dashboardPage(
               ),
               fluidRow(
                 box(
-                  title = "Nombre de Passagers par Compagnie",
+                  title = "Nombre de passagers par compagnie",
                   status = "success",
                   solidHeader = TRUE,
                   collapsible = TRUE,
                   plotlyOutput("bar_compagnies_vols")
                 ),
                 box(
-                  title = "Évolution Mensuelle du Nombre de Passagers",
+                  title = "Évolution mensuelle du nombre de passagers",
                   status = "success",
                   solidHeader = TRUE,
                   collapsible = TRUE,
                   plotlyOutput("line_evolution_passagers")
                 )),
-                fluidRow(
+              fluidRow(
                 box(
-                  title = "Répartition des Passagers par Nationalité",
+                  title = "Répartition des passagers par nationalité",
                   status = "success",
                   solidHeader = TRUE,
                   collapsible = TRUE,
                   plotlyOutput("pie_nationalite_compagnies")
                 ),
                 box(
-                  title = "Détail des Passagers par Compagnie",
+                  title = "Détail des passagers par compagnie",
                   status = "success",
                   solidHeader = TRUE,
                   collapsible = TRUE,
@@ -157,16 +195,16 @@ ui <- dashboardPage(
                   )
                 ),
                 valueBoxOutput("total_routes")),
-                fluidRow(
-                  box(
-                  title = "Nombre de Passagers par Liaison (hors AUTRES)",
+              fluidRow(
+                box(
+                  title = "Nombre de passagers par liaison (hors AUTRES)",
                   status = "success",
                   solidHeader = TRUE,
                   collapsible = TRUE,
                   plotlyOutput("bar_liaisons")
                 ),
-                  box(
-                  title = "Détail des Passagers par Liaison (hors AUTRES)",
+                box(
+                  title = "Détail des passagers par liaison (hors AUTRES)",
                   status = "success",
                   solidHeader = TRUE,
                   collapsible = TRUE,
@@ -212,14 +250,14 @@ ui <- dashboardPage(
               ),
               fluidRow(
                 box(
-                  title = "Compagnies de Fret les Plus Actives",
+                  title = "Compagnies de Fret les plus actives",
                   status = "success",
                   solidHeader = TRUE,
                   collapsible = TRUE,
                   plotlyOutput("bar_fret")
                 ),
                 box(
-                  title = "Détail des Compagnies de Fret",
+                  title = "Détail des Ccompagnies de Fret",
                   status = "success",
                   solidHeader = TRUE,
                   collapsible = TRUE,
@@ -230,7 +268,7 @@ ui <- dashboardPage(
       tabItem(tabName = "comparaison",
               fluidRow(
                 box(
-                  title = "Comparaison Annuelle (Base 100 en 2018)",
+                  title = "Comparaison annuelle (Base 100 en 2018)",
                   status = "success",
                   solidHeader = TRUE,
                   collapsible = TRUE,

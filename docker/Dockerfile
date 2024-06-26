@@ -10,6 +10,7 @@ ADD correction/module_comparaison_annuelle.R .
 ADD correction/module_fret.R .
 ADD correction/module_liaisons.R .
 ADD correction/module_zone.R .
+ADD correction/module_accueil.R .
 ADD correction/sources.yml .
 COPY correction/R R/
 COPY . .

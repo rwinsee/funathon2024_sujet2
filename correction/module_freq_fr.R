@@ -199,40 +199,51 @@
   })
   
   
-
+  # Création carte Leaflet initiale
   output$carte <- renderLeaflet({
     leaflet() %>%
+      # Ajoute une couche de tuiles par défaut à la carte (OpenStreetMap)
       addTiles() %>%
+      # Définit le centre de la carte et le niveau de zoom initial - focus FR métropolitaine
       setView(lng = 1.888334, lat = 46.603354, zoom = 5)
   })
-
+  # Fonction pour observer les chgts dans les données filtrées et maj la carto en conséquence
   observe({
+    # Récupère les données filtrées par la date sélectionnée par l'user
     trafic_aeroports <- filtered_data() %>%
+      # Joint les données de trafic aéroportuaire avec les données de localisation des aéroports
       inner_join(airports_location, by = c("apt" = "Code.OACI"))
 
+    # Calcule le trafic total et assigne des couleurs en fonction du volume de trafic
     trafic_aeroports <- trafic_aeroports %>%
+      # Remplace les valeurs manquantes dans les colonnes de départ, d'arrivée et de transit par les valeurs correspondantes
       mutate(
         apt_pax_dep = coalesce(apt_pax_dep.x, apt_pax_dep.y),
         apt_pax_arr = coalesce(apt_pax_arr.x, apt_pax_arr.y),
         apt_pax_tr = coalesce(apt_pax_tr.x, apt_pax_tr.y),
+        # Calcule le trafic total (départ + arrivée + transit)
         trafic = apt_pax_dep + apt_pax_arr + apt_pax_tr
       ) %>%
+      # Divise les données en trois groupes égaux basés sur le volume de trafic
       mutate(volume = ntile(trafic, 3)) %>%
+      # Assigne une couleur à chaque groupe de trafic (vert, bleu, rouge)
       mutate(color = c("green", "blue", "red")[volume])
-
+    # Récupère les coordonnées des aéroports
     coords <- st_coordinates(trafic_aeroports$geometry)
     trafic_aeroports$longitude <- coords[,1]
     trafic_aeroports$latitude <- coords[,2]
-
+    # Crée des icônes personnalisées pour les marqueurs des aéroports
     icons <- awesomeIcons(
       icon = 'plane',
       iconColor = 'black',
       library = 'fa',
       markerColor = trafic_aeroports$color
     )
-
+    # Met à jour la carte Leaflet avec les nouveaux marqueurs
     leafletProxy("carte", data = trafic_aeroports) %>%
+      # Efface les anciens marqueurs
       clearMarkers() %>%
+      # Ajoute les nouveaux marqueurs avec des icônes et des étiquettes
       addAwesomeMarkers(
         lng = ~longitude,
         lat = ~latitude,
@@ -240,7 +251,10 @@
         label = ~paste0(Nom, " (", apt, ") : ", trafic, " voyageurs")
       )
   })
-
+  
+  # Création du graphique avec choix du plot_ly (!=plotly)
   output$lineplot <- renderPlotly({
+    # Appelle la fonction plot_airport_line avec les données de trafic aéroportuaire
+    # et l'option sélectionnée par l'user
     plot_airport_line(pax_apt_all, input$select)
   })

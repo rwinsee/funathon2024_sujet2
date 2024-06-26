@@ -99,20 +99,20 @@ map_leaflet_airport <- function(df, airports_location, month, year) {
     filter(month(date) == month, year(date) == year)
   
   # Vérification des colonnes après filtrage
-  print("Colonnes après filtrage:")
-  print(colnames(trafic_date))
-  
+  # print("Colonnes après filtrage:")
+  # print(colnames(trafic_date))
+  # 
   # Vérification des colonnes avant la fusion
-  print("Colonnes avant la fusion (airports_location):")
-  print(colnames(airports_location))
+  # print("Colonnes avant la fusion (airports_location):")
+  # print(colnames(airports_location))
   
   # Fusionner avec les informations de localisation des aéroports
   trafic_aeroports <- trafic_date %>%
     inner_join(airports_location, by = c("apt" = "Code.OACI"))
   
   # Vérification des colonnes après la fusion
-  print("Colonnes après fusion:")
-  print(colnames(trafic_aeroports))
+  # print("Colonnes après fusion:")
+  # print(colnames(trafic_aeroports))
   
   # Sélectionner les colonnes correctes après la fusion
   trafic_aeroports <- trafic_aeroports %>%
