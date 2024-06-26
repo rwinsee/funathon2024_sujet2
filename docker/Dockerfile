@@ -12,6 +12,7 @@ ADD correction/modules_server/module_liaisons.R .
 ADD correction/modules_server/module_zone.R .
 ADD correction/sources.yml .
 COPY correction/R R/
+COPY correction /home/rstudio/correction
 ADD renv.lock .
 ADD renv .
 
