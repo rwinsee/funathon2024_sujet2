@@ -19,9 +19,6 @@ COPY . .
 ADD renv.lock .
 ADD renv .
 
-
-
-
 # Expose port where shiny app will broadcast
 ARG SHINY_PORT=3838
 EXPOSE $SHINY_PORT
