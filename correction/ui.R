@@ -36,10 +36,11 @@ input_airport <- selectInput(
 
 
 ui <- dashboardPage(
-  dashboardHeader(title = "DB aéroports FR"),
+  dashboardHeader(title = "TdB trafic aérien"),
   dashboardSidebar(
     sidebarMenu(
       menuItem("Accueil", tabName = "accueil", icon = icon("home")),
+      menuItem("Indicateurs nationaux", tabName = "indic_nat", icon = icon("signal-bars")),
       menuItem("Fréquentation FR", tabName = "frequentation", icon = icon("dashboard")),
       menuItem("Compagnies Aériennes", tabName = "compagnies", icon = icon("plane")),
       menuItem("Liaisons Aériennes", tabName = "liaisons", icon = icon("exchange")),
@@ -60,6 +61,26 @@ ui <- dashboardPage(
                   width = 12,
                   uiOutput("accueil_content")
                 )
+              )
+      ),
+      tabItem(tabName = "indic_nat",
+              fluidRow(
+                valueBoxOutput("total_passengers_last_period", width = 4),
+                valueBoxOutput("monthly_growth", width = 4),
+                valueBoxOutput("quarterly_growth", width = 4)
+              ),
+              fluidRow(
+                valueBoxOutput("annual_growth", width = 4),
+                valueBoxOutput("total_airports", width = 4),
+                valueBoxOutput("total_companies", width = 4)
+              ),
+              fluidRow(
+                column(width = 6, plotlyOutput("stacked_bar_chart")),
+                column(width = 6, plotlyOutput("market_share_chart"))
+              ),
+              fluidRow(
+                column(width = 6, plotlyOutput("passenger_flight_line_chart")),
+                column(width = 6, plotlyOutput("indexed_passenger_chart"))
               )
       ),
       tabItem(tabName = "frequentation",

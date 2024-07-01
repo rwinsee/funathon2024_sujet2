@@ -13,6 +13,51 @@ library(bslib)
 library(shinydashboard)
 library(DT)
 
+# library(httr)
+# library(utils)
+# 
+# # Fonction pour télécharger et décompresser un fichier ZIP avec gestion des erreurs
+# download_and_unzip <- function(url, dest_dir) {
+#   temp <- tempfile()
+#   response <- GET(url)
+#   
+#   if (response$status_code == 200) {
+#     writeBin(content(response, "raw"), temp)
+#     unzip(temp, exdir = dest_dir)
+#     unlink(temp)
+#     message(paste("Téléchargement et décompression réussis pour:", url))
+#   } else {
+#     stop(paste("Erreur lors du téléchargement de l'URL:", url, "- Statut:", response$status_code))
+#   }
+# }
+# 
+# # Chemins de destination pour les fichiers décompressés
+# dest_dir_airports <- "data/airports"
+# dest_dir_liaisons <- "data/liaisons"
+# dest_dir_compagnies <- "data/compagnies"
+# 
+# # Créer les dossiers de destination s'ils n'existent pas
+# dir.create(dest_dir_airports, showWarnings = FALSE, recursive = TRUE)
+# dir.create(dest_dir_liaisons, showWarnings = FALSE, recursive = TRUE)
+# dir.create(dest_dir_compagnies, showWarnings = FALSE, recursive = TRUE)
+# 
+# # URLs des fichiers ZIP
+# urls <- list(
+#   airports = "https://www.data.gouv.fr/fr/datasets/r/75aa06d3-21ed-4a1f-8cbe-cda84fcfd140",
+#   liaisons = "https://www.data.gouv.fr/fr/datasets/r/5d2e4a84-ece5-4cdf-934f-281c178e4dc5",
+#   compagnies = "https://www.data.gouv.fr/fr/datasets/r/27889c6b-7132-4b6c-9b13-71d0367fedd9"
+# )
+# 
+# # Télécharger et décompresser les fichiers
+# download_and_unzip(urls$airports, dest_dir_airports)
+# download_and_unzip(urls$liaisons, dest_dir_liaisons)
+# download_and_unzip(urls$compagnies, dest_dir_compagnies)
+# 
+# # Vérifier les fichiers décompressés
+# list.files(dest_dir_airports)
+# list.files(dest_dir_liaisons)
+# list.files(dest_dir_compagnies)
+
 # setwd("correction/")#indicates the right WD, otherwise it doesn't run correctly
 source("R/import_data.R")
 source("R/create_data_list.R")
@@ -27,13 +72,17 @@ source("R/figures.R")
 YEARS_LIST <- 2018:2022
 MONTHS_LIST = 1:12
 
-# Load data ----------------------------------
-urls <- create_data_list("./sources.yml")
+# # Load data ----------------------------------
+# Lire le fichier YAML pour obtenir les URLs de données
+urls <- create_data_list("sources.yml")
+# Vérifiez les URLs extraites
+# print(urls)
 
+# Télécharger et lire les fichiers pour chaque type
+pax_apt_all <- download_and_read_zip(urls$airports$zip) %>% clean_airport_data()
+pax_lsn_all <- download_and_read_zip(urls$liaisons$zip) %>% clean_liaison_data()
+pax_cie_all <- download_and_read_zip(urls$compagnies$zip) %>% clean_compagnie_data()
 
-pax_apt_all <- import_airport_data(unlist(urls$airports))
-pax_cie_all <- import_compagnies_data(unlist(urls$compagnies))
-pax_lsn_all <- import_liaisons_data(unlist(urls$liaisons))
 
 airports_location <- st_read(urls$geojson$airport)
 
