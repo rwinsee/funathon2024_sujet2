@@ -1,3 +1,4 @@
+
 # Fonction pour filtrer les données selon la date sélectionnée
 filtered_cie_data <- reactive({
   selected_year <- as.numeric(format(input$date, "%Y"))

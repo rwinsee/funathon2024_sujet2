@@ -28,21 +28,24 @@ output$total_routes <- renderValueBox({
 # Value Box: Route la Plus Fréquentée
 output$top_route <- renderValueBox({
   top_route <- filtered_lsn_data() %>%
-    group_by(lsn_dep_nom, lsn_arr_nom) %>%
+    group_by(lsn_dep_nom, lsn_arr_nom, .drop = TRUE) %>%
     summarize(total = sum(lsn_pax_loc, na.rm = TRUE)) %>%
     arrange(desc(total)) %>%
     slice(1) %>%
     ungroup() %>%
     mutate(route = paste(lsn_dep_nom, "-", lsn_arr_nom)) %>%
-    pull(route)
+    pull(route) %>%
+    as.character()  # Convertir en chaîne de caractères si nécessaire
   
   valueBox(
     top_route,
     "Route la Plus Fréquentée",
-    icon = icon("route"),
+    icon = icon("plane"),
     color = "blue"
   )
 })
+
+
 
 # Graphique: Nombre de Passagers par Liaison
 output$bar_liaisons <- renderPlotly({
@@ -58,7 +61,7 @@ output$bar_liaisons <- renderPlotly({
     layout(title = 'Nombre de passagers par liaison',
            xaxis = list(title = 'Départ<>Arrivée de la liaison'),
            yaxis = list(title = 'Nombre de passagers'))
-           
+  
 })
 
 

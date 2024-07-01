@@ -35,12 +35,12 @@ input_annee <- selectInput(
   selected = max(years_available)
 )
 
-input_airport <- selectInput(
-  "select",
-  "Aéroport choisi",
-  choices = choices_airports,
-  selected = "PARIS-CHARLES DE GAULLE" #default_airport
-)
+# input_airport <- selectInput(
+#   "select",
+#   "Aéroport choisi",
+#   choices = choices_airports,
+#   selected = "PARIS-CHARLES DE GAULLE" #default_airport
+# )
 
 
 
@@ -55,8 +55,7 @@ ui <- dashboardPage(
       menuItem("Compagnies Aériennes", tabName = "compagnies", icon = icon("plane")),
       menuItem("Liaisons Aériennes", tabName = "liaisons", icon = icon("exchange")),
       menuItem("Zones Géographiques", tabName = "zones", icon = icon("globe")),
-      menuItem("Fret Aérien", tabName = "fret", icon = icon("cubes")),
-      menuItem("Comparaison Annuelle", tabName = "comparaison", icon = icon("chart-line"))
+      menuItem("Fret Aérien", tabName = "fret", icon = icon("cubes"))
     )
   ),
   dashboardBody(
@@ -96,12 +95,17 @@ ui <- dashboardPage(
       ),
       tabItem(tabName = "frequentation",
               fluidRow(
-                valueBoxOutput("total_passengers"),
-                valueBoxOutput("busiest_airport"),
-                valueBoxOutput("least_busy_airport"),
-                valueBoxOutput("monthly_variation"),
-                valueBoxOutput("annual_variation"),
-                valueBoxOutput("total_flights")
+                box(
+                  title = "Type d'affichage",
+                  status = "primary",
+                  solidHeader = TRUE,
+                  width = 2,
+                  radioButtons("display_type", "Type d'affichage:",
+                               choices = list("Mensuel" = "mensuel", "Trimestriel" = "trimestriel", "Annuel" = "annuel")),
+                  uiOutput("period_selector"),
+                  uiOutput("airport_selector")
+                ),
+                uiOutput("value_boxes")
               ),
               fluidRow(
                 box(
@@ -109,7 +113,6 @@ ui <- dashboardPage(
                   status = "success",
                   solidHeader = TRUE,
                   collapsible = TRUE,
-                  input_airport,
                   plotlyOutput("lineplot")
                 ),
                 box(
@@ -122,20 +125,12 @@ ui <- dashboardPage(
               ),
               fluidRow(
                 box(
-                  title = "Données détaillées mensuelles",
+                  title = "Données détaillées",
                   status = "success",
                   solidHeader = TRUE,
                   collapsible = TRUE,
-                  input_date,
-                  DTOutput("table")
-                ),
-                box(
-                  title = "Données détaillées annuelles",
-                  status = "success",
-                  solidHeader = TRUE,
-                  collapsible = TRUE,
-                  input_annee,
-                  DTOutput("table_annee")
+                  # input_date,  # Utilisation de l'input_date sans le filtre "Mois choisi"
+                  DTOutput("table_freq")
                 )
               )
       ),
@@ -187,11 +182,11 @@ ui <- dashboardPage(
                   shinyWidgets::airDatepickerInput(
                     "date_liaisons",
                     label = "Mois choisi",
-                    value = "2019-01-01",
+                    value = max_date,#"2019-01-01",
                     view = "months",
                     minView = "months",
-                    minDate = "2018-01-01",
-                    maxDate = "2022-12-01",
+                    minDate = "2010-01-01",
+                    maxDate = "2023-12-01",
                     dateFormat = "MMMM yyyy",
                     language = "fr"
                   )
@@ -259,29 +254,15 @@ ui <- dashboardPage(
                   plotlyOutput("bar_fret")
                 ),
                 box(
-                  title = "Détail des Ccompagnies de Fret",
+                  title = "Détail des compagnies de Fret",
                   status = "success",
                   solidHeader = TRUE,
                   collapsible = TRUE,
                   DTOutput("table_fret_detail")
                 )
               )
-      ),
-      tabItem(tabName = "comparaison",
-              fluidRow(
-                box(
-                  title = "Comparaison annuelle (Base 100 en 2018)",
-                  status = "success",
-                  solidHeader = TRUE,
-                  collapsible = TRUE,
-                  plotlyOutput("line_comparaison")
-                )
-              )
       )
-      
-      
-      
-    )
+      )
   ),
   skin = "green" 
 )

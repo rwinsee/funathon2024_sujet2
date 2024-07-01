@@ -156,7 +156,7 @@ output$market_share_chart <- renderPlotly({
     summarise(total_passengers = sum(cie_peq, na.rm = TRUE)) %>%
     arrange(desc(total_passengers)) %>%
     mutate(share = total_passengers / sum(total_passengers)) %>%
-    mutate(cie_nom = if_else(share < 0.01, "Autres", cie_nom)) %>%
+    mutate(cie_nom = if_else(share < 0.01, "Autres Cie Inf. à 1%", cie_nom)) %>%
     group_by(cie_nom) %>%
     summarise(total_passengers = sum(total_passengers), share = sum(share)) %>%
     arrange(desc(total_passengers))
@@ -205,7 +205,7 @@ output$passenger_flight_line_chart <- renderPlotly({
         zeroline = FALSE
       ),
       yaxis = list(
-        title = 'Nombre de passagers',
+        title = 'Nb. de passagers',
         side = 'left',
         autotick = TRUE,
         showgrid = TRUE,
@@ -216,7 +216,7 @@ output$passenger_flight_line_chart <- renderPlotly({
         zeroline = FALSE
       ),
       yaxis2 = list(
-        title = 'Nombre de vols',
+        title = 'Nb. de vols',
         side = 'right',
         overlaying = 'y',
         autotick = TRUE,
@@ -251,9 +251,9 @@ output$indexed_passenger_chart <- renderPlotly({
   df$formatted_date <- factor(df$formatted_date, levels = unique(df$formatted_date))
   
   plot_ly(df, x = ~formatted_date) %>%
-    add_lines(y = ~dep_index, name = 'Index départs') %>%
-    add_lines(y = ~arr_index, name = 'Index arrivées') %>%
-    add_lines(y = ~tr_index, name = 'Index Transits') %>%
+    add_lines(y = ~dep_index, name = 'Passagers au départ') %>%
+    add_lines(y = ~arr_index, name = 'Pasagers à arrivée') %>%
+    add_lines(y = ~tr_index, name = 'Passager en transit') %>%
     layout(
       title = 'Évolution en indice base100 (Janvier 2010) selon le type de voyageur',
       xaxis = list(

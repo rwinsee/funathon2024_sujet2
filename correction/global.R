@@ -13,8 +13,8 @@ library(bslib)
 library(shinydashboard)
 library(DT)
 
-# library(httr)
-# library(utils)
+library(httr)
+library(utils)
 # 
 # # Fonction pour télécharger et décompresser un fichier ZIP avec gestion des erreurs
 # download_and_unzip <- function(url, dest_dir) {
@@ -68,9 +68,10 @@ source("R/figures.R")
 
 
 # Global variables ---------------------------
+YEARS_LIST <- 2013:2024
+MONTHS_LIST <- 1:12
 
-YEARS_LIST <- 2018:2022
-MONTHS_LIST = 1:12
+
 
 # # Load data ----------------------------------
 # Lire le fichier YAML pour obtenir les URLs de données
@@ -82,7 +83,6 @@ urls <- create_data_list("sources.yml")
 pax_apt_all <- download_and_read_zip(urls$airports$zip) %>% clean_airport_data()
 pax_lsn_all <- download_and_read_zip(urls$liaisons$zip) %>% clean_liaison_data()
 pax_cie_all <- download_and_read_zip(urls$compagnies$zip) %>% clean_compagnie_data()
-
 
 airports_location <- st_read(urls$geojson$airport)
 

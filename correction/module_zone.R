@@ -1,10 +1,11 @@
 output$bar_vols_zones <- renderPlotly({
   data <- filtered_data() %>%
-    group_by(apt_zon) %>%
+    mutate(Zone = recode(apt_zon, "MT" = "Métropole", "OM" = "Outre-Mer")) %>%
+    group_by(Zone) %>%
     summarize(total_vols = sum(apt_nmvt_mxt + apt_nmvt_cgo, na.rm = TRUE)) %>%
     arrange(desc(total_vols))
   
-  plot_ly(data, x = ~apt_zon, y = ~total_vols, type = 'bar', marker = list(color = c("Métropole" = "#77DD77", "Outre-Mer" = "#89CFF0"))) %>%
+  plot_ly(data, x = ~Zone, y = ~total_vols, type = 'bar', marker = list(color = c("Métropole" = "#77DD77", "Outre-Mer" = "#89CFF0"))) %>%
     layout(title = 'Nombre de Vols par Zone',
            xaxis = list(title = 'Zone'),
            yaxis = list(title = 'Nombre de Vols'))
@@ -12,7 +13,7 @@ output$bar_vols_zones <- renderPlotly({
 
 output$detail_passagers_zone <- renderDT({
   data <- filtered_data() %>%
-    mutate(Zone = recode(apt_zon, "mt" = "Métropole", "om" = "Outre-Mer")) %>%
+    mutate(Zone = recode(apt_zon, "MT" = "Métropole", "OM" = "Outre-Mer")) %>%
     group_by(Zone) %>%
     summarize(
       `Passagers Départ` = sum(apt_pax_dep, na.rm = TRUE),
@@ -28,7 +29,7 @@ output$detail_passagers_zone <- renderDT({
 
 output$bar_passengers_zones <- renderPlotly({
   data <- filtered_data() %>%
-    mutate(Zone = recode(apt_zon, "mt" = "Métropole", "om" = "Outre-Mer")) %>%
+    mutate(Zone = recode(apt_zon, "MT" = "Métropole", "OM" = "Outre-Mer")) %>%
     group_by(Zone) %>%
     summarize(total_passagers = sum(apt_pax_dep + apt_pax_arr + apt_pax_tr, na.rm = TRUE)) %>%
     arrange(desc(total_passagers))
