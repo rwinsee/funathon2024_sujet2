@@ -8,7 +8,6 @@ ADD correction/module_accueil.R .
 ADD correction/module_indicateurs_nat.R .
 ADD correction/module_cie_aeriennes.R .
 ADD correction/module_freq_fr.R .
-ADD correction/module_comparaison_annuelle.R .
 ADD correction/module_fret.R .
 ADD correction/module_liaisons.R .
 ADD correction/module_zone.R .

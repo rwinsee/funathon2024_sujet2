@@ -1,13 +1,23 @@
 main_color <- "black"
 
+dates_available <- pax_apt_all %>%
+  mutate(date = as.Date(paste(anmois, "01", sep=""), format="%Y%m%d")) %>%
+  pull(date)
+
+min_date <- min(dates_available)
+max_date <- max(dates_available)
+
+years_available <- unique(year(dates_available))
+months_available <- unique(format(dates_available, "%Y-%m-01"))
+
 input_date <- shinyWidgets::airDatepickerInput(
   "date",
   label = "Mois choisi",
-  value = "2019-01-01",
+  value = max_date,
   view = "months",
   minView = "months",
-  minDate = "2018-01-01",
-  maxDate = "2022-12-01",
+  minDate = min_date,
+  maxDate = max_date,
   dateFormat = "MMMM yyyy",
   language = "fr"
 )
@@ -21,8 +31,8 @@ choices_airports <- setNames(
 input_annee <- selectInput(
   "select_year",
   "Année choisie",
-  choices = 2018:2022,
-  selected = 2019
+  choices = years_available,
+  selected = max(years_available)
 )
 
 input_airport <- selectInput(
@@ -40,8 +50,8 @@ ui <- dashboardPage(
   dashboardSidebar(
     sidebarMenu(
       menuItem("Accueil", tabName = "accueil", icon = icon("home")),
-      menuItem("Indicateurs nationaux", tabName = "indic_nat", icon = icon("signal-bars")),
-      menuItem("Fréquentation FR", tabName = "frequentation", icon = icon("dashboard")),
+      menuItem("Indicateurs nationaux", tabName = "indic_nat", icon = icon("plane")),
+      menuItem("Suivi par aéroport", tabName = "frequentation", icon = icon("dashboard")),
       menuItem("Compagnies Aériennes", tabName = "compagnies", icon = icon("plane")),
       menuItem("Liaisons Aériennes", tabName = "liaisons", icon = icon("exchange")),
       menuItem("Zones Géographiques", tabName = "zones", icon = icon("globe")),
@@ -78,6 +88,7 @@ ui <- dashboardPage(
                 column(width = 6, plotlyOutput("stacked_bar_chart")),
                 column(width = 6, plotlyOutput("market_share_chart"))
               ),
+              br(),
               fluidRow(
                 column(width = 6, plotlyOutput("passenger_flight_line_chart")),
                 column(width = 6, plotlyOutput("indexed_passenger_chart"))
