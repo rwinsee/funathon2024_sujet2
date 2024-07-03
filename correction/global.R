@@ -40,9 +40,9 @@ urls <- create_data_list("sources.yml")
 # pax_cie_all <- download_and_read_zip(urls$compagnies$zip) %>% clean_compagnie_data()
 
 # Télécharger et lire les fichiers pour chaque type en Parquet
-pax_apt_all <- import_airport_data_parquet(urls$airports$parquet) %>% clean_airport_data()
-pax_lsn_all <- import_liaisons_data_parquet(urls$liaisons$parquet) %>% clean_liaison_data()
-pax_cie_all <- import_compagnies_data_parquet(urls$compagnies$parquet) %>% clean_compagnie_data()
+pax_apt_all <- import_airport_data_parquet(urls$airports$parquet) 
+pax_lsn_all <- import_liaisons_data_parquet(urls$liaisons$parquet) 
+pax_cie_all <- import_compagnies_data_parquet(urls$compagnies$parquet) 
 
 airports_location <- st_read(urls$geojson$airport)
 

@@ -1,5 +1,6 @@
 # Fonction pour lire un fichier Parquet à partir d'une URL
 read_parquet_from_url <- function(url) {
+  print(paste("URL reçue :", url)) # Debugging line
   temp <- tempfile()
   on.exit(unlink(temp))
   response <- GET(url)
@@ -12,7 +13,6 @@ read_parquet_from_url <- function(url) {
     stop(paste("Erreur lors du téléchargement de l'URL:", url, "- Statut:", response$status_code))
   }
 }
-
 # Fonction pour lire les fichiers de données des aéroports en Parquet
 import_airport_data_parquet <- function(url) {
   pax_apt_all <- read_parquet_from_url(url) %>% 
