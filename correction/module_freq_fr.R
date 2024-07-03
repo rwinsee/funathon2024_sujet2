@@ -1,5 +1,6 @@
 max_date <- max(as.Date(paste0(pax_apt_all$anmois, "01"), format = "%Y%m%d"))
 
+# Générer les sélecteurs en fonction du type d'affichage
 output$period_selector <- renderUI({
   if (input$display_type == "mensuel") {
     selectInput("selected_month", "Choisir un mois:",
@@ -347,20 +348,30 @@ output$lineplot <- renderPlotly({
   plot_airport_line(pax_apt_all, selected_airport, input$display_type)
 })
 
-# Observer to update map based on filtered data
+# Observer pour mettre à jour la carte en fonction des données filtrées
 observe({
-  req(input$period_selector, input$airport_selector)
+  req(input$display_type, input$selected_airport)
   
-  # Filtrer les données basées sur le mois et l'année sélectionnés
-  month_selected <- switch(input$period_selector,
-                           "Mensuel" = 1,
-                           "Trimestriel" = 3,
-                           "Annuel" = 12)
+  selected_airport <- input$selected_airport
+  display_type <- input$display_type
   
-  year_selected <- as.numeric(input$airport_selector)
+  # Récupérer la valeur de période en fonction du type d'affichage
+  period_value <- if (display_type == "mensuel") {
+    req(input$selected_month)
+    input$selected_month
+  } else if (display_type == "trimestriel") {
+    req(input$selected_year_for_quarter, input$selected_quarter)
+    paste0(input$selected_year_for_quarter, "-", substr(input$selected_quarter, 2, 2))
+  } else if (display_type == "annuel") {
+    req(input$selected_year)
+    input$selected_year
+  } else {
+    NULL
+  }
   
-  # Appeler votre fonction map_leaflet_airport avec les données filtrées
+  carte <- map_leaflet_airport(pax_apt_all, airports_location, display_type, period_value, selected_airport)
+  
   output$carte <- renderLeaflet({
-    map_leaflet_airport(df = filtered_data(), airports_location, month_selected, year_selected)
+    carte
   })
 })

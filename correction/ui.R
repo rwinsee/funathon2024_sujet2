@@ -42,9 +42,6 @@ input_annee <- selectInput(
 #   selected = "PARIS-CHARLES DE GAULLE" #default_airport
 # )
 
-
-
-
 ui <- dashboardPage(
   dashboardHeader(title = "TdB trafic aérien"),
   dashboardSidebar(
@@ -120,7 +117,9 @@ ui <- dashboardPage(
                   status = "success",
                   solidHeader = TRUE,
                   collapsible = TRUE,
-                  leafletOutput("carte")
+                  leafletOutput("carte"),
+                  p("Lors du choix d'un aéroport, un zoom est appliqué sur la carte si ce dernier est présent dans la table source de la localisation des aéroports.")
+                  
                 )
               ),
               fluidRow(
@@ -134,11 +133,22 @@ ui <- dashboardPage(
                 )
               )
       ),
+
       tabItem(tabName = "compagnies",
               fluidRow(
-                valueBoxOutput("top_airline"),
-                valueBoxOutput("top_flights_airline")
-                # valueBoxOutput("total_routes")
+                box(
+                  title = "Choisir une période",
+                  status = "primary",
+                  solidHeader = TRUE,
+                  width = 3,
+                  radioButtons("display_type_comp", "Type d'affichage:",
+                               choices = list("Mensuel" = "mens_uel", "Trimestriel" = "trimestr_iel", "Annuel" = "ann_uel")),
+                  uiOutput("period_selector_comp")
+                )
+              ,
+              
+                valueBoxOutput("top_airline_comp"),
+                valueBoxOutput("top_flights_airline_comp")
               ),
               fluidRow(
                 box(
@@ -146,30 +156,25 @@ ui <- dashboardPage(
                   status = "success",
                   solidHeader = TRUE,
                   collapsible = TRUE,
-                  plotlyOutput("bar_compagnies_vols")
-                ),
-                box(
-                  title = "Évolution mensuelle du nombre de passagers",
-                  status = "success",
-                  solidHeader = TRUE,
-                  collapsible = TRUE,
-                  plotlyOutput("line_evolution_passagers")
-                )),
-              fluidRow(
-                box(
-                  title = "Répartition des passagers par nationalité",
-                  status = "success",
-                  solidHeader = TRUE,
-                  collapsible = TRUE,
-                  plotlyOutput("pie_nationalite_compagnies")
+                  plotlyOutput("bar_compagnies_vols_comp")
                 ),
                 box(
                   title = "Détail des passagers par compagnie",
                   status = "success",
                   solidHeader = TRUE,
                   collapsible = TRUE,
-                  DTOutput("table_detail_compagnies")
+                  DTOutput("table_detail_compagnies_comp")
                 )
+              ),
+              fluidRow(
+                box(
+                  title = "Répartition des passagers par nationalité",
+                  status = "success",
+                  solidHeader = TRUE,
+                  collapsible = TRUE,
+                  plotlyOutput("pie_nationalite_compagnies_comp")
+                )
+                
               )
       ),
       tabItem(tabName = "liaisons",
@@ -240,10 +245,16 @@ ui <- dashboardPage(
       ),
       tabItem(tabName = "fret",
               fluidRow(
-                valueBoxOutput("top1_fret_airline"),
-                # valueBoxOutput("top2_fret_airline"),
-                # valueBoxOutput("top3_fret_airline"),
-                valueBoxOutput("least_fret_airline")
+                box(
+                  title = "Choisir une période",
+                  status = "primary",
+                  solidHeader = TRUE,
+                  width = 3,
+                  radioButtons("display_type_fret", "Type d'affichage:",
+                               choices = list("Mensuel" = "mens_uel", "Trimestriel" = "trimestr_iel", "Annuel" = "ann_uel")),
+                  uiOutput("period_selector_fret")
+                ),
+                uiOutput("value_boxes_fret")
               ),
               fluidRow(
                 box(
