@@ -1,20 +1,20 @@
 # Jeux de données 
 ## Pour données compressées en csv
-# airports:
-#   zip: "https://www.data.gouv.fr/fr/datasets/r/75aa06d3-21ed-4a1f-8cbe-cda84fcfd140"
-# liaisons:
-#   zip: "https://www.data.gouv.fr/fr/datasets/r/5d2e4a84-ece5-4cdf-934f-281c178e4dc5"
-# compagnies:
-#   zip: "https://www.data.gouv.fr/fr/datasets/r/27889c6b-7132-4b6c-9b13-71d0367fedd9"
-# geojson:
-#   airport: "https://minio.lab.sspcloud.fr/projet-funathon/2024/sujet2/aeroports.geojson"
-  
-## Pour données compressées en parquet
 airports:
-  parquet: "https://www.data.gouv.fr/fr/datasets/r/884e5754-2ad6-436d-9699-148e3f6e2b7c"
+  zip: "https://www.data.gouv.fr/fr/datasets/r/75aa06d3-21ed-4a1f-8cbe-cda84fcfd140"
 liaisons:
-  parquet: "https://www.data.gouv.fr/fr/datasets/r/a3947c3b-36ae-4aa0-bee2-323f6d684f0e"
+  zip: "https://www.data.gouv.fr/fr/datasets/r/5d2e4a84-ece5-4cdf-934f-281c178e4dc5"
 compagnies:
-  parquet: "https://www.data.gouv.fr/fr/datasets/r/314cfa80-fe1f-4834-b18e-93476eb82c91"
+  zip: "https://www.data.gouv.fr/fr/datasets/r/27889c6b-7132-4b6c-9b13-71d0367fedd9"
 geojson:
   airport: "https://minio.lab.sspcloud.fr/projet-funathon/2024/sujet2/aeroports.geojson"
+  
+## Pour données compressées en parquet
+# airports:
+#   parquet: "https://www.data.gouv.fr/fr/datasets/r/884e5754-2ad6-436d-9699-148e3f6e2b7c"
+# liaisons:
+#   parquet: "https://www.data.gouv.fr/fr/datasets/r/a3947c3b-36ae-4aa0-bee2-323f6d684f0e"
+# compagnies:
+#   parquet: "https://www.data.gouv.fr/fr/datasets/r/314cfa80-fe1f-4834-b18e-93476eb82c91"
+# geojson:
+#   airport: "https://minio.lab.sspcloud.fr/projet-funathon/2024/sujet2/aeroports.geojson"

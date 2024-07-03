@@ -16,8 +16,8 @@ library(httr)
 library(utils)
 
 # setwd("correction/")#indicates the right WD, otherwise it doesn't run correctly
-source("R/import_data_parquet.R")
-# source("R/import_data_csv.R")
+# source("R/import_data_parquet.R")
+source("R/import_data_csv.R")
 source("R/create_data_list.R")
 source("R/clean_dataframe.R")
 source("R/divers_functions.R")
@@ -35,14 +35,14 @@ urls <- create_data_list("sources.yml")
 # print(urls)
 
 # Télécharger et lire les fichiers pour chaque type en csv
-# pax_apt_all <- download_and_read_zip(urls$airports$zip) %>% clean_airport_data()
-# pax_lsn_all <- download_and_read_zip(urls$liaisons$zip) %>% clean_liaison_data()
-# pax_cie_all <- download_and_read_zip(urls$compagnies$zip) %>% clean_compagnie_data()
+pax_apt_all <- download_and_read_zip(urls$airports$zip) %>% clean_airport_data()
+pax_lsn_all <- download_and_read_zip(urls$liaisons$zip) %>% clean_liaison_data()
+pax_cie_all <- download_and_read_zip(urls$compagnies$zip) %>% clean_compagnie_data()
 
 # Télécharger et lire les fichiers pour chaque type en Parquet
-pax_apt_all <- import_airport_data_parquet(urls$airports$parquet) 
-pax_lsn_all <- import_liaisons_data_parquet(urls$liaisons$parquet) 
-pax_cie_all <- import_compagnies_data_parquet(urls$compagnies$parquet) 
+# pax_apt_all <- import_airport_data_parquet(urls$airports$parquet) 
+# pax_lsn_all <- import_liaisons_data_parquet(urls$liaisons$parquet) 
+# pax_cie_all <- import_compagnies_data_parquet(urls$compagnies$parquet) 
 
 airports_location <- st_read(urls$geojson$airport)
 
